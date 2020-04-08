@@ -35,12 +35,12 @@ class Experiment:
 
         Args:
             params: dictionary with the following keys
-                mapping (str): type of genome-to-behavior mapping {'linear','hyperbolic', 'bounded_linear', 'linear_seesaw', 'multiplicative',
+                mapping (str): type of genome-to-behavior mapping {'linear', 'hyperbolic', 'bounded_linear', 'linear_seesaw', 'multiplicative',
                                                                    'soft_multiplicative', 'hyperbolic_seesaw', 'multiplicative_seesaw', 'cosinus',
                                                                    '2D_cosinus', 'multiplicative_cosinus', 'peaks', '2D_peaks'}
                 eta (float): mutation spread parameter
                 n_pop (int): number of individuals in the population
-                n_offsprings (int): number of offsprings generated from the population at each generation
+                n_offspring (int): number of offsprings generated from the population at each generation
                 criterion (str): type of novelty computation {'novelty', 'hull', 'fitness', 'random'}
                 n_neighbors (int): number of closest neighbors to compute the novelty ("novelty" criterion)
                 best_fit (float): arbitrary behavior with the maximum fitness ("fitness" criterion)
@@ -53,7 +53,21 @@ class Experiment:
             display (bool): display the state of the search at each generation
 
         """
-        # TODO: assert correct values
+        assert params["mapping"] in ['linear', 'hyperbolic', 'bounded_linear', 'linear_seesaw', 'multiplicative',
+                                     'soft_multiplicative', 'hyperbolic_seesaw', 'multiplicative_seesaw', 'cosinus',
+                                     '2D_cosinus', 'multiplicative_cosinus', 'peaks', '2D_peaks'], "incorrect type of mapping"
+        assert params["eta"] > 0, "eta must be greater than 0"
+        assert params["n_pop"] > 0, "n_pop must be greater than 0"
+        assert params["n_offspring"] > 0, "n_offspring must be greater than 0"
+        assert params["criterion"] in ['novelty', 'hull', 'fitness', 'random'], "incorrect selection criterion"
+        assert params["n_neighbors"] > 0, "n_neighbors must be greater than 0"
+        assert params["n_selected"] > 0, "n_selected must be greater than 0"
+        assert params["n_evolvability"] > 0, "n_evolvability must be greater than 0"
+        assert params["n_epochs"] > 0, "n_epochs must be greater than 0"
+        assert params["addition"] in ['novelty', 'random'], "incorrect addition criterion"
+        assert params["restart"] > 0, "restart must be greater than 0"
+        assert params["frozen"] > 0, "frozen must be greater than 0"
+
         # experiment parameters
         self.mapping = params["mapping"]
         self.eta = params["eta"]
@@ -186,7 +200,7 @@ class Experiment:
                 old_b = self.get_reference_behaviors()
             distances = cdist(new_b.reshape(-1, 1), old_b.reshape(-1, 1))
             distances = np.sort(distances, axis=1)
-            novelties = np.mean(distances[:, :self.n_neighbors + 1], axis=1)  # TODO, Note: 1 distance is 0. (distance to self)
+            novelties = np.mean(distances[:, :self.n_neighbors], axis=1)  # Note: one distance might be 0 (distance to self)
 
         elif self.criterion == "hull":
             if old_b is None:

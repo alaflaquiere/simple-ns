@@ -1,3 +1,4 @@
+import tkinter as tk
 from tools.simpleNS import *
 
 plt.ion()
@@ -6,7 +7,7 @@ plt.ion()
 class Analyzer:
     """Analyzer for results generated using simpleNS."""
 
-    def __init__(self, file_path, save_figures=True):
+    def __init__(self, file_path="", save_figures=True):
         """Constructor
 
         Args:
@@ -14,6 +15,10 @@ class Analyzer:
             save_figures (bool): flag to save the figures in ./figures when they are displayed
 
         """
+        if file_path == "":
+            tk.Tk().withdraw()
+            file_path = tk.filedialog.askopenfilename(initialdir="./results")
+
         print("analyzing the results from {}".format(file_path))
         self.experiment_path = file_path
         self.experiment_name, _ = os.path.splitext(os.path.basename(file_path))
@@ -29,9 +34,6 @@ class Analyzer:
         if self.save_figures and not os.path.exists("figures"):
             os.mkdir("figures")
             print("created folder: figures")
-        print(self.save_figures)
-        print("figures/{}".format(self.experiment_name))
-        print(not os.path.exists("figures/{}".format(self.experiment_name)))
         if self.save_figures and not os.path.exists("figures/{}".format(self.experiment_name)):
             os.mkdir("figures/{}".format(self.experiment_name))
             print("created folder: figures/{}".format(self.experiment_name))
@@ -171,8 +173,8 @@ class Analyzer:
         plt.axis("equal")
         plt.show()
         if self.save_figures:
-            plt.savefig("figures/{}/gene_to_behavior_mapping.svg".format(self.experiment_name))
-            plt.savefig("figures/{}/gene_to_behavior_mapping.png".format(self.experiment_name))
+            plt.savefig("figures/{}/gene-to-behavior mapping.svg".format(self.experiment_name))
+            plt.savefig("figures/{}/gene-to-behavior mapping.png".format(self.experiment_name))
 
     def display_mapping_evolvability(self, reso=100):
         """Displays the evolvability (coverage + uniformity) of the genome-to-behavior mapping.
@@ -208,8 +210,8 @@ class Analyzer:
         plt.show()
 
         if self.save_figures:
-            plt.savefig("figures/{}/evolvability_mapping.svg".format(self.experiment_name))
-            plt.savefig("figures/{}/evolvability_mapping.png".format(self.experiment_name))
+            plt.savefig("figures/{}/evolvability mapping.svg".format(self.experiment_name))
+            plt.savefig("figures/{}/evolvability mapping.png".format(self.experiment_name))
 
     def display_median_fq_tq(self, data_median, data_fq, data_tq, label="", ynorm=False):
         """Displays the median(s), first quartile(s), and third quartile(s) throughout generations.
@@ -269,13 +271,13 @@ class Analyzer:
                                   self.all_stats["tq_median_ind_uniformities"], label="individual uniformity across runs", ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_cum_coverages"], self.all_stats["fq_cum_coverages"],
-                                  self.all_stats["tq_cum_coverages"], label="cumulative coverage per run", ynorm=True)  # TODO there shouldn't be any deviation from the median
+                                  self.all_stats["tq_cum_coverages"], label="cumulative coverage per run", ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_median_cum_coverages"], self.all_stats["fq_median_cum_coverages"],
                                   self.all_stats["tq_median_cum_coverages"], label="cumulative coverage across runs", ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_cum_uniformities"], self.all_stats["fq_cum_uniformities"],
-                                  self.all_stats["tq_cum_uniformities"], label="cumulative uniformity per run", ynorm=True)  # TODO there shouldn't be any deviation from the median
+                                  self.all_stats["tq_cum_uniformities"], label="cumulative uniformity per run", ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_median_cum_uniformities"], self.all_stats["fq_median_cum_uniformities"],
                                   self.all_stats["tq_median_cum_uniformities"], label="cumulative uniformity across runs", ynorm=True)
@@ -309,7 +311,7 @@ class Analyzer:
                                   self.all_stats["tq_cum_coverages"][run], label="cumulative coverage for run " + str(run), ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_cum_uniformities"][run], self.all_stats["fq_cum_uniformities"][run],
-                                  self.all_stats["tq_cum_uniformities"][run], label="cumulative uniformity for run " + str(run), ynorm=True)  # TODO shouldn't be any variance
+                                  self.all_stats["tq_cum_uniformities"][run], label="cumulative uniformity for run " + str(run), ynorm=True)
 
         self.display_median_fq_tq(self.all_stats["median_ages"][run], self.all_stats["fq_age"][run],
                                   self.all_stats["tq_age"][run], label="individual ages for run " + str(run))
@@ -511,11 +513,15 @@ if __name__ == "__main__":
 
     os.chdir("..")
 
-    my_analyzer = Analyzer("results/test.pkl", save_figures=True)
+    my_analyzer = Analyzer(save_figures=True)
 
-    my_analyzer.display_novelty(run=0, generation=50, reso=50)
-
+    my_analyzer.display_mapping()
+    my_analyzer.display_mapping_evolvability()
     my_analyzer.display_all_stats()
-    my_analyzer.display_selected_individuals(run=0)
+    my_analyzer.display_run_stats()
+    my_analyzer.display_search_history()
+    my_analyzer.display_selected_individuals()
+    my_analyzer.display_novelty(generation=0)
+
     plt.show(block=True)
 

@@ -5,7 +5,7 @@ parameters = {
     "eta": 45,
     "n_pop": 20,
     "n_offspring": 40,
-    "criterion": "fitness",
+    "criterion": "novelty",
     "n_neighbors": 10,
     "best_fit": -4,
     "n_selected": 6,
@@ -15,5 +15,5 @@ parameters = {
     "restart": np.inf,
     "frozen": np.inf,
     "n_runs": 100,
-    "name": "standard_random_fitness_100runs"  # None
+    "name": "standard_random_novelty_100runs"  # None
 }
