@@ -507,21 +507,3 @@ class Analyzer:
         if self.save_figures:
             plt.savefig("figures/{}/novelty_generation{}_run{}.svg".format(self.experiment_name, generation, run))
             plt.savefig("figures/{}/novelty_generation{}_run{}.png".format(self.experiment_name, generation, run))
-
-
-if __name__ == "__main__":
-    # TODO: remove in the future
-    os.chdir("..")
-
-    my_analyzer = Analyzer(save_figures=True)
-
-    my_analyzer.display_mapping()
-    my_analyzer.display_mapping_evolvability()
-    my_analyzer.display_all_stats()
-    my_analyzer.display_run_stats()
-    my_analyzer.display_search_history()
-    my_analyzer.display_selected_individuals()
-    my_analyzer.display_novelty(generation=0)
-
-    plt.show(block=True)
-
