@@ -483,7 +483,7 @@ def run_in_parallel(params):
     with mp.Pool(max(1, os.cpu_count() - 1)) as pool:
         runs_data = [pool.apply_async(create_and_run_experiment, args=(params,), callback=lambda _: progress_bar.update(1)) for _ in range(params["n_runs"])]
         runs_data = [r.get() for r in runs_data]
-    print("elapsed time: {:.2} minutes".format((time.time() - tic) / 60))
+    print("elapsed time: {:.2f} minutes".format((time.time() - tic) / 60))
     progress_bar.close()
     return runs_data
 
@@ -501,8 +501,9 @@ def save_experiment_results(params, d):
     dic = {"parameters": params,
            "results": d}
 
-    if not os.path.exists("../results"):
-        os.mkdir("../results")
+    if not os.path.exists("results"):
+        os.mkdir("results")
+        print("created folder: results")
 
     filename = time.strftime("%Y%m%d-%H%M%S") if params["name"] is None else params["name"]
 

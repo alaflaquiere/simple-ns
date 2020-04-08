@@ -510,7 +510,7 @@ class Analyzer:
 
 
 if __name__ == "__main__":
-
+    # TODO: remove in the future
     os.chdir("..")
 
     my_analyzer = Analyzer(save_figures=True)

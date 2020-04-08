@@ -9,11 +9,11 @@ parameters = {
     "n_neighbors": 10,
     "best_fit": -4,
     "n_selected": 6,
-    "addition": "random",
+    "addition": "novelty",
     "n_evolvability": 1000,
     "n_epochs": 1000,
     "restart": np.inf,
     "frozen": np.inf,
     "n_runs": 100,
-    "name": "standard_random_novelty_100runs"  # None
+    "name": "standard_novelty_novelty_100runs"  # None
 }
