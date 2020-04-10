@@ -1,5 +1,5 @@
 from tools.analyze import *
-from parameters import *
+from parameters import parameters
 
 if __name__ == "__main__":
     """Run experiments according to the parameters from parameters.py and analyze the results."""

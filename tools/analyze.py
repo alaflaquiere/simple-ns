@@ -248,76 +248,86 @@ class Analyzer:
             plt.xlabel("generations")
 
         if ynorm:
-            plt.ylim([0, 1])
+            plt.ylim([-0.05, 1.05])
         plt.show()
         if self.save_figures:
             plt.savefig("figures/{}/{}.svg".format(self.experiment_name, label))
             plt.savefig("figures/{}/{}.png".format(self.experiment_name, label))
 
-    def display_all_stats(self):
+    def display_all_stats(self, stats=None):
         """Displays all stats throughout generations.
 
+        Args:
+            stats (dict): statistics to display
+
         """
-        self.display_median_fq_tq(self.all_stats["median_ind_coverages"], self.all_stats["fq_ind_coverages"],
-                                  self.all_stats["tq_ind_coverages"], label="individual coverage per run", ynorm=True)
+        if stats is None:
+            stats = self.all_stats
+        
+        self.display_median_fq_tq(stats["median_ind_coverages"], stats["fq_ind_coverages"],
+                                  stats["tq_ind_coverages"], label="individual coverage per run", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_median_ind_coverages"], self.all_stats["fq_median_ind_coverages"],
-                                  self.all_stats["tq_median_ind_coverages"], label="individual coverage across runs", ynorm=True)
+        self.display_median_fq_tq(stats["median_median_ind_coverages"], stats["fq_median_ind_coverages"],
+                                  stats["tq_median_ind_coverages"], label="individual coverage across runs", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_ind_uniformities"], self.all_stats["fq_ind_uniformities"],
-                                  self.all_stats["tq_ind_uniformities"], label="individual uniformity per run", ynorm=True)
+        self.display_median_fq_tq(stats["median_ind_uniformities"], stats["fq_ind_uniformities"],
+                                  stats["tq_ind_uniformities"], label="individual uniformity per run", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_median_ind_uniformities"], self.all_stats["fq_median_ind_uniformities"],
-                                  self.all_stats["tq_median_ind_uniformities"], label="individual uniformity across runs", ynorm=True)
+        self.display_median_fq_tq(stats["median_median_ind_uniformities"], stats["fq_median_ind_uniformities"],
+                                  stats["tq_median_ind_uniformities"], label="individual uniformity across runs", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_cum_coverages"], self.all_stats["fq_cum_coverages"],
-                                  self.all_stats["tq_cum_coverages"], label="cumulative coverage per run", ynorm=True)
+        self.display_median_fq_tq(stats["median_cum_coverages"], stats["fq_cum_coverages"],
+                                  stats["tq_cum_coverages"], label="cumulative coverage per run", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_median_cum_coverages"], self.all_stats["fq_median_cum_coverages"],
-                                  self.all_stats["tq_median_cum_coverages"], label="cumulative coverage across runs", ynorm=True)
+        self.display_median_fq_tq(stats["median_median_cum_coverages"], stats["fq_median_cum_coverages"],
+                                  stats["tq_median_cum_coverages"], label="cumulative coverage across runs", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_cum_uniformities"], self.all_stats["fq_cum_uniformities"],
-                                  self.all_stats["tq_cum_uniformities"], label="cumulative uniformity per run", ynorm=True)
+        self.display_median_fq_tq(stats["median_cum_uniformities"], stats["fq_cum_uniformities"],
+                                  stats["tq_cum_uniformities"], label="cumulative uniformity per run", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_median_cum_uniformities"], self.all_stats["fq_median_cum_uniformities"],
-                                  self.all_stats["tq_median_cum_uniformities"], label="cumulative uniformity across runs", ynorm=True)
+        self.display_median_fq_tq(stats["median_median_cum_uniformities"], stats["fq_median_cum_uniformities"],
+                                  stats["tq_median_cum_uniformities"], label="cumulative uniformity across runs", ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_ages"], self.all_stats["fq_age"],
-                                  self.all_stats["tq_age"], label="individual ages per run")
+        self.display_median_fq_tq(stats["median_ages"], stats["fq_age"],
+                                  stats["tq_age"], label="individual ages per run")
 
-        self.display_median_fq_tq(self.all_stats["median_median_ages"], self.all_stats["fq_median_ages"],
-                                  self.all_stats["tq_median_ages"], label="individual ages across runs")
+        self.display_median_fq_tq(stats["median_median_ages"], stats["fq_median_ages"],
+                                  stats["tq_median_ages"], label="individual ages across runs")
 
-        self.display_median_fq_tq(self.all_stats["median_distances"], self.all_stats["fq_distances"],
-                                  self.all_stats["tq_distances"], label="individual distance to parent per run")
+        self.display_median_fq_tq(stats["median_distances"], stats["fq_distances"],
+                                  stats["tq_distances"], label="individual distance to parent per run")
 
-        self.display_median_fq_tq(self.all_stats["median_median_distances"], self.all_stats["fq_median_distances"],
-                                  self.all_stats["tq_median_distances"], label="individual distance to parent across runs")
+        self.display_median_fq_tq(stats["median_median_distances"], stats["fq_median_distances"],
+                                  stats["tq_median_distances"], label="individual distance to parent across runs")
 
-    def display_run_stats(self, run=0):
+    def display_run_stats(self, stats=None, run=0):
         """Display the stats throughout the generations for an input run.
 
         Args:
+            stats (dict): statistics to display
             run (int): run index
 
         """
-        self.display_median_fq_tq(self.all_stats["median_ind_coverages"][run], self.all_stats["fq_ind_coverages"][run],
-                                  self.all_stats["tq_ind_coverages"][run], label="individual coverage for run " + str(run), ynorm=True)
+        if stats is None:
+            stats = self.all_stats
 
-        self.display_median_fq_tq(self.all_stats["median_ind_uniformities"][run], self.all_stats["fq_ind_uniformities"][run],
-                                  self.all_stats["tq_ind_uniformities"][run], label="individual uniformity for run " + str(run), ynorm=True)
+        self.display_median_fq_tq(stats["median_ind_coverages"][run], stats["fq_ind_coverages"][run],
+                                  stats["tq_ind_coverages"][run], label="individual coverage for run " + str(run), ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_cum_coverages"][run], self.all_stats["fq_cum_coverages"][run],
-                                  self.all_stats["tq_cum_coverages"][run], label="cumulative coverage for run " + str(run), ynorm=True)
+        self.display_median_fq_tq(stats["median_ind_uniformities"][run], stats["fq_ind_uniformities"][run],
+                                  stats["tq_ind_uniformities"][run], label="individual uniformity for run " + str(run), ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_cum_uniformities"][run], self.all_stats["fq_cum_uniformities"][run],
-                                  self.all_stats["tq_cum_uniformities"][run], label="cumulative uniformity for run " + str(run), ynorm=True)
+        self.display_median_fq_tq(stats["median_cum_coverages"][run], stats["fq_cum_coverages"][run],
+                                  stats["tq_cum_coverages"][run], label="cumulative coverage for run " + str(run), ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_ages"][run], self.all_stats["fq_age"][run],
-                                  self.all_stats["tq_age"][run], label="individual ages for run " + str(run))
+        self.display_median_fq_tq(stats["median_cum_uniformities"][run], stats["fq_cum_uniformities"][run],
+                                  stats["tq_cum_uniformities"][run], label="cumulative uniformity for run " + str(run), ynorm=True)
 
-        self.display_median_fq_tq(self.all_stats["median_distances"][run], self.all_stats["fq_distances"][run],
-                                  self.all_stats["tq_distances"][run], label="individual distance to parent for run " + str(run))
+        self.display_median_fq_tq(stats["median_ages"][run], stats["fq_age"][run],
+                                  stats["tq_age"][run], label="individual ages for run " + str(run))
+
+        self.display_median_fq_tq(stats["median_distances"][run], stats["fq_distances"][run],
+                                  stats["tq_distances"][run], label="individual distance to parent for run " + str(run))
 
     def display_search_history(self, group="population", run=0, reso=50):
         """Displays the search history for an input run.

@@ -42,8 +42,8 @@ class Experiment:
                 n_pop (int): number of individuals in the population
                 n_offspring (int): number of offsprings generated from the population at each generation
                 criterion (str): type of novelty computation {'novelty', 'hull', 'fitness', 'random'}
-                n_neighbors (int): number of closest neighbors to compute the novelty ("novelty" criterion)
-                best_fit (float): arbitrary behavior with the maximum fitness ("fitness" criterion)
+                n_neighbors (int): number of closest neighbors to compute the "novelty" criterion)
+                best_fit (float): arbitrary behavior with the maximum fitness for the "fitness" criterion
                 n_selected (int): number of offsprings added to the archive at each generation
                 n_evolvability (int): number of samples generated from each genome to evaluate its evolvability
                 n_epochs (int): number of generations of the search process
